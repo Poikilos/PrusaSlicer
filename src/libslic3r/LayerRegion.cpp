@@ -81,10 +81,12 @@ void LayerRegion::make_perimeters(const SurfaceCollection &slices, SurfaceCollec
         &slices,
         this->layer()->height,
         this->flow(frPerimeter),
-        &region_config,
-        &this->layer()->object()->config(),
+        &region_config, // PrintRegionConfig*
+        // &this->layer()->object()->config(), // PrintObjectConfig*
+        this->layer()->object(), // PrintObject*
         &print_config,
         spiral_vase,
+        this->layer()->print_z,
         
         // output:
         &this->perimeters,

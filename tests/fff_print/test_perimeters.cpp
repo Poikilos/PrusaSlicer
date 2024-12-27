@@ -37,6 +37,7 @@ SCENARIO("Perimeter nesting", "[Perimeters]")
     };
 
     FullPrintConfig config;
+    // PrintObject* object_ptr = new PrintObject(...);
 
     auto test = [&config](const TestData &data) {
         SurfaceCollection slices;
@@ -45,14 +46,17 @@ SCENARIO("Perimeter nesting", "[Perimeters]")
         ExtrusionEntityCollection loops;
         ExtrusionEntityCollection gap_fill;
         SurfaceCollection         fill_surfaces;
+        double z = 0.0;
         PerimeterGenerator        perimeter_generator(
             &slices, 
             1., // layer height
             Flow(1., 1., 1.),
             static_cast<const PrintRegionConfig*>(&config),
-            static_cast<const PrintObjectConfig*>(&config),
+            // static_cast<const PrintObjectConfig*>(&config),
+            nullptr, // object_ptr, // PrintObject*; nullptr is ok only if no map (such as fuzzy_skin_displacement_map) since maps require bounding_box for mapping.
             static_cast<const PrintConfig*>(&config),
             false, // spiral_vase
+            z,
             // output:
             &loops, &gap_fill, &fill_surfaces);
         perimeter_generator.process();
